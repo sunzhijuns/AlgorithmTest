@@ -58,12 +58,14 @@ namespace SortTestHelper {
 		return true;
 	}
 	template<typename T>
-	void testSort(string sortName, void(*sort)(T[], int), T arr[], int n) {
+	void testSort(string sortName, void(*sort)(T[], int,int), T arr[], int n,int minSort) {
 		clock_t startTime = clock();
-		sort(arr, n);
+		sort(arr, n,minSort);
 		clock_t endTime = clock();
 		assert(isSorted(arr,n));
-		cout << sortName << " : " << double(endTime - startTime) / CLOCKS_PER_SEC << " s" << endl;
+		//printArray(arr,n);
+		
+		cout << sortName << " : "<< minSort<<"  :" << double(endTime - startTime) / CLOCKS_PER_SEC << " s" << endl;
 		return;
 	} 
 

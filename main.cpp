@@ -10,66 +10,107 @@
 #include"ShellSort.h"
 //#include<algorithm>
 using namespace std;
-// 我们的第一版bubbleSort
+
+
+//[L,Mid],[Mid+1,R]
 template<typename T>
-void bubbleSort(T arr[], int n) {
+void merge(T *arr, int L, int Mid, int R){
+	T *aux = new T[R - L + 1];
+	for (int i = L; i <= R; i++)
+	{
+		aux[i - L] = arr[i];
+	}
+	/*copy(arr + L, arr + R, aux);*/
 
-	bool swapped;
+	int i = L;
+	int j = Mid + 1;
+	for (int k = L; k <= R; k++)
+	{
+		if (i > Mid)
+		{
+			arr[k] = aux[j - L];
+			j++;
+		}
+		else if (j > R)
+		{
+			arr[k] = aux[i - L];
+			i++;
+		}
+		else if (aux[i - L] <= aux[j - L])
+		{
+			arr[k] = aux[i - L];
+			i++;
+		}
+		else
+		{
+			arr[k] = aux[j - L];
+			j++;
+		}
+	}
+	delete[] aux;
+}
 
-	do {
-		swapped = false;
-		for (int i = 1; i < n; i++)
-			if (arr[i - 1] > arr[i]) {
-				swap(arr[i - 1], arr[i]);
-				swapped = true;
+template<typename T>
+void __mergeSort(T *arr,int L, int R) {
+	if (L>=R)
+	{
+		return;
+	}
+	int Mid = L + (R - L) / 2;
+	__mergeSort(arr, L, Mid);
+	__mergeSort(arr, Mid + 1, R);
+	merge(arr,L,Mid,R);
+}
 
-			}
-
-		// 优化, 每一趟Bubble Sort都将最大的元素放在了最后的位置
-		// 所以下一次排序, 最后的元素可以不再考虑
-		n--;
-
-	} while (swapped);
+template<typename T>
+void mergeSort(T *arr, int n) {
+	__mergeSort(arr,0,n-1);
 }
 
 
-// 我们的第二版bubbleSort,使用newn进行优化
 template<typename T>
-void bubbleSort2(T arr[], int n) {
-
-	int newn; // 使用newn进行优化
-
-	do {
-		newn = 0;
-		for (int i = 1; i < n; i++)
-			if (arr[i - 1] > arr[i]) {
-				swap(arr[i - 1], arr[i]);
-
-				// 记录最后一次的交换位置,在此之后的元素在下一轮扫描中均不考虑
-				newn = i;
-			}
-		n = newn;
-	} while (newn > 0);
+void __mergeSort1(T *arr, int L, int R,int minSort) {
+	if (R-L < minSort)
+	{
+		insertSort(arr + L, R - L + 1);
+		return;
+	}
+	int Mid = L + (R - L) / 2;
+	__mergeSort1(arr, L, Mid,minSort);
+	__mergeSort1(arr, Mid + 1, R,minSort);
+	merge(arr, L, Mid, R);
 }
 
+template<typename T>
+void mergeSort1(T *arr, int n,int minSort) {
+	__mergeSort1(arr, 0, n - 1,minSort);
+}
 
 int main()
 {
-	int n = 10000;
+	int n = 1000000;
 	//int *arr0 = SortTestHelper::generateNearlyOrderedArray(n,1000);
 	int *arr0 = SortTestHelper::generateRandomArray(n,0,n);
-	int *arr1 = SortTestHelper::copyIntArray(arr0, n);
-	int *arr2 = SortTestHelper::copyIntArray(arr0,n);
-	int *arr3 = SortTestHelper::copyIntArray(arr0, n);
+	int *arr;
+	for (int i = 1; i < 100; i++)
+	{
+		arr = SortTestHelper::copyIntArray(arr0, n);
+		SortTestHelper::testSort("mergeSort1", mergeSort1, arr, n, i);
+		delete[] arr;
+	}
+	//int *arr1 = SortTestHelper::copyIntArray(arr0, n);
+	//int *arr2 = SortTestHelper::copyIntArray(arr0,n);
+	//int *arr3 = SortTestHelper::copyIntArray(arr0, n);
 
-	SortTestHelper::testSort("selectionSort", selectionSort, arr0, n);
-	SortTestHelper::testSort("insertSort", insertSort, arr1, n);
-	SortTestHelper::testSort("bubbleSort", bubbleSort, arr2, n);
-	SortTestHelper::testSort("bubbleSort2", bubbleSort2, arr3, n);
+	//SortTestHelper::testSort("selectionSort", selectionSort, arr0, n);
+	//SortTestHelper::testSort("insertSort", insertSort, arr1, n);
+	
+	//SortTestHelper::testSort("mergeSort", mergeSort, arr1, n);
+	//SortTestHelper::testSort("mergeSort", mergeSort, arr3, n);
 	delete[] arr0;
-	delete[] arr1;
-	delete[] arr2;
-	delete[] arr3;
+	//delete[] arr1;
+	//delete[] arr2;
+	//delete[] arr3;
 	system("pause");
 
 	return 0;
