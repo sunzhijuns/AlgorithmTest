@@ -11,15 +11,15 @@ public class InsertionSort1{
             // 寻找元素arr[i]合适的插入位置
 
             // 写法1
-            for( int j = i ; j > 0 ; j -- )
-                if( arr[j].compareTo( arr[j-1] ) < 0 )
-                    swap( arr, j , j-1 );
-                else
-                    break;
+//            for( int j = i ; j > 0 ; j -- )
+//                if( arr[j].compareTo( arr[j-1] ) < 0 )
+//                    swap( arr, j , j-1 );
+//                else
+//                    break;
 
             // 写法2
-//            for( int j = i; j > 0 && arr[j].compareTo(arr[j-1]) < 0 ; j--)
-//                swap(arr, j, j-1);
+            for( int j = i; j > 0 && arr[j].compareTo(arr[j-1]) < 0 ; j--)
+                swap(arr, j, j-1);
 
         }
     }
