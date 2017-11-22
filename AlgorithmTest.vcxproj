@@ -143,7 +143,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="InsertionSort.h" />
     <ClInclude Include="SelectionSort.h" />
+    <ClInclude Include="ShellSort.h" />
     <ClInclude Include="SortTestHelper.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Student.h" />
