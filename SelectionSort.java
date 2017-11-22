@@ -24,10 +24,10 @@ public class SelectionSort{
         arr[j] = t;
     }
 
+    // 测试SelectionSort
     public static void main(String[] args) {
 
-        // 测试排序算法辅助函数
-        int N = 100000;
+        int N = 20000;
         Integer[] arr = SortTestHelper.generateRandomArray(N, 0, 100000);
         SortTestHelper.testSort("SelectionSort", arr);
 
