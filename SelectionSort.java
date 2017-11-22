@@ -1,9 +1,9 @@
-public class SelectionSort {
+public class SelectionSort{
 
     // 我们的算法类不允许产生任何实例
     private SelectionSort(){}
 
-    public static <T extends Comparable<T>> void sort(T[] arr){
+    public static void sort(Comparable[] arr){
 
         int n = arr.length;
         for( int i = 0 ; i < n ; i ++ ){
@@ -27,10 +27,9 @@ public class SelectionSort {
     public static void main(String[] args) {
 
         // 测试排序算法辅助函数
-        int N = 20000;
+        int N = 100000;
         Integer[] arr = SortTestHelper.generateRandomArray(N, 0, 100000);
-        SelectionSort.sort( arr );
-        SortTestHelper.printArray(arr);
+        SortTestHelper.testSort("SelectionSort", arr);
 
         return;
     }
