@@ -16,6 +16,11 @@ namespace SortTestHelper {
 		}
 		return arr;
 	}
+	int *copyIntArray(int arr[],int n) {
+		int*arrCopy = new int[n];
+		copy(arr,arr+n,arrCopy);
+		return arrCopy;
+	}
 	template<typename T>
 	void printArray(T arr[], int n) {
 		for (int i = 0; i < n; i++)
@@ -45,4 +50,5 @@ namespace SortTestHelper {
 		cout << sortName << " : " << double(endTime - startTime) / CLOCKS_PER_SEC << " s" << endl;
 		return;
 	} 
+
 }
