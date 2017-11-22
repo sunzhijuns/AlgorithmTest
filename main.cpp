@@ -8,9 +8,10 @@
 #include"SortTestHelper.h"
 #include"InsertionSort.h"
 #include"ShellSort.h"
-//#include<algorithm>
+#include<algorithm>
 using namespace std;
 
+#include<cmath>
 
 //[L,Mid],[Mid+1,R]
 template<typename T>
@@ -68,22 +69,92 @@ void mergeSort(T *arr, int n) {
 }
 
 
+//[L,Mid],[Mid+1,R]
 template<typename T>
-void __mergeSort1(T *arr, int L, int R,int minSort) {
-	if (R-L < minSort)
+void merge1(T *arr, int L, int Mid, int R,T * aux) {
+	for (int i = L; i <= R; i++)
+	{
+		aux[i] = arr[i];
+	}
+	/*copy(arr + L, arr + R, aux);*/
+
+	int i = L;
+	int j = Mid + 1;
+	for (int k = L; k <= R; k++)
+	{
+		if (i > Mid)
+		{
+			arr[k] = aux[j];
+			j++;
+		}
+		else if (j > R)
+		{
+			arr[k] = aux[i];
+			i++;
+		}
+		else if (aux[i] <= aux[j])
+		{
+			arr[k] = aux[i];
+			i++;
+		}
+		else
+		{
+			arr[k] = aux[j];
+			j++;
+		}
+	}
+}
+
+template<typename T>
+void __mergeSort1(T *arr, int L, int R , T *aux) {
+	if (R-L < 30)
 	{
 		insertSort(arr + L, R - L + 1);
 		return;
 	}
 	int Mid = L + (R - L) / 2;
-	__mergeSort1(arr, L, Mid,minSort);
-	__mergeSort1(arr, Mid + 1, R,minSort);
-	merge(arr, L, Mid, R);
+	__mergeSort1(arr, L, Mid,aux);
+	__mergeSort1(arr, Mid + 1, R,aux);
+	if (arr[Mid] > arr[Mid+1])
+	{
+		merge1(arr, L, Mid, R, aux);
+	}
+	
 }
 
 template<typename T>
-void mergeSort1(T *arr, int n,int minSort) {
-	__mergeSort1(arr, 0, n - 1,minSort);
+void mergeSort1(T *arr, int n) {
+	T *aux = new T[n];
+	__mergeSort1(arr, 0, n - 1,aux);
+	delete[] aux;
+}
+
+int min1(int a, int b) {
+	return a < b ? a : b;
+}
+template<typename T>
+void mergeSort2(T *arr, int n) {
+	T *aux = new T[n];
+
+	for (int i = 0; i < n; i+=30)
+	{
+		insertSort(arr+i, min(30, n-i));
+	}
+
+	int sz = 30;
+	for (; sz < n; sz *= 2)
+	{
+		for (int i = 0; i+sz < n; i += sz + sz)
+		{
+			if (arr[i+sz-1] > arr[i+sz])
+			{
+				merge1(arr, i, i + sz - 1, min(i + sz + sz - 1, n - 1), aux);
+			}
+			
+		}
+
+	}
+	delete[] aux;
 }
 
 int main()
@@ -91,26 +162,30 @@ int main()
 	int n = 1000000;
 	//int *arr0 = SortTestHelper::generateNearlyOrderedArray(n,1000);
 	int *arr0 = SortTestHelper::generateRandomArray(n,0,n);
-	int *arr;
-	for (int i = 1; i < 100; i++)
-	{
-		arr = SortTestHelper::copyIntArray(arr0, n);
-		SortTestHelper::testSort("mergeSort1", mergeSort1, arr, n, i);
-		delete[] arr;
-	}
-	//int *arr1 = SortTestHelper::copyIntArray(arr0, n);
-	//int *arr2 = SortTestHelper::copyIntArray(arr0,n);
-	//int *arr3 = SortTestHelper::copyIntArray(arr0, n);
+	int *arr1 = SortTestHelper::copyIntArray(arr0, n);
+	int *arr2 = SortTestHelper::copyIntArray(arr0,n);
+	int *arr3 = SortTestHelper::copyIntArray(arr0, n);
 
 	//SortTestHelper::testSort("selectionSort", selectionSort, arr0, n);
 	//SortTestHelper::testSort("insertSort", insertSort, arr1, n);
 	
-	//SortTestHelper::testSort("mergeSort", mergeSort, arr1, n);
-	//SortTestHelper::testSort("mergeSort", mergeSort, arr3, n);
+	SortTestHelper::testSort("mergeSort", mergeSort, arr0, n);
+	SortTestHelper::testSort("mergeSort1", mergeSort1, arr1, n);
+	SortTestHelper::testSort("mergeSort", mergeSort, arr2, n);
+	SortTestHelper::testSort("mergeSort2", mergeSort2, arr3, n);
 	delete[] arr0;
-	//delete[] arr1;
-	//delete[] arr2;
-	//delete[] arr3;
+	delete[] arr1;
+	delete[] arr2;
+	delete[] arr3;
+
+	int *a = new int[81];
+	for (int i = 0; i < 81; i++)
+	{
+		a[i] = 81 - i;
+	}
+	SortTestHelper::testSort("mergeSort2", mergeSort2, a,81);
+	SortTestHelper::printArray(a,81);
+	delete[]a;
 	system("pause");
 
 	return 0;
