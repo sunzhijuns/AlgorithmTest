@@ -87,7 +87,7 @@ int __partition(T arr[], int L, int R) {
 	T value = arr[L];
 	int i = L + 1;
 	int j = R;
-	while (i<=j) // 不可以i<j;
+	while (true)//i<=j) // 不可以i<j;
 	{
 		while (arr[i] < value)
 		{
@@ -143,7 +143,7 @@ int main()
 	int n = 1000000;
 	int swapTimes = 100;
 	//int *arr0 = SortTestHelper::generateNearlyOrderedArray(n,swapTimes);
-	int *arr0 = SortTestHelper::generateRandomArray(n,0,0);
+	int *arr0 = SortTestHelper::generateRandomArray(n,0,10);
 	int *arr1 = SortTestHelper::copyIntArray(arr0, n);
 	int *arr2 = SortTestHelper::copyIntArray(arr0,n);
 	int *arr3 = SortTestHelper::copyIntArray(arr0, n);
@@ -154,7 +154,7 @@ int main()
 	
 	SortTestHelper::testSort("mergeSort", mergeSort, arr0, n);
 	SortTestHelper::testSort("quickSort", quickSort, arr1, n);
-	SortTestHelper::testSort("mergeSort", mergeSort, arr2, n);
+	//SortTestHelper::testSort("mergeSort", mergeSort, arr2, n);
 	//SortTestHelper::testSort("quickSort1", quickSort1, arr3, n);
 	//SortTestHelper::testSort("mergeSort2", mergeSort2, arr4, n);
 	delete[] arr0;
@@ -168,7 +168,7 @@ int main()
 	{
 		a[i] = 81 - i;
 	}
-	SortTestHelper::testSort("quickSort", quickSort, a,81);
+	SortTestHelper::testSort("mergeSort", mergeSort, a,81);
 	SortTestHelper::printArray(a,81);
 	delete[]a;
 	system("pause");
