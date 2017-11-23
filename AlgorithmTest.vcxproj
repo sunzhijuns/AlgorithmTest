@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="InsertionSort.h" />
     <ClInclude Include="MergeSort.h" />
+    <ClInclude Include="QuickSort.h" />
     <ClInclude Include="SelectionSort.h" />
     <ClInclude Include="ShellSort.h" />
     <ClInclude Include="SortTestHelper.h" />
