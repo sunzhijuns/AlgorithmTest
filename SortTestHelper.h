@@ -62,8 +62,9 @@ namespace SortTestHelper {
 		clock_t startTime = clock();
 		sort(arr, n);
 		clock_t endTime = clock();
+		//printArray(arr, n);
 		assert(isSorted(arr,n));
-		//printArray(arr,n);
+		
 		
 		cout << sortName << " : " << double(endTime - startTime) / CLOCKS_PER_SEC << " s" << endl;
 		return;

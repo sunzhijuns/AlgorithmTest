@@ -15,9 +15,11 @@ using namespace std;
 template<typename T>
 // [L, R] 只少两个
 int __partition1(T arr[], int L, int R) {
+	int q = rand() % (R - L + 1) + L;
+	swap(arr[L], arr[q]);
 
 	int j = L;
-	for (int i = L+1; i <R+1; i++)
+	for (int i = L+1; i <=R; i++)
 	{
 		if (arr[i] >=arr[L])
 		{
@@ -55,12 +57,15 @@ void quickSort1(T arr[], int n) {
 
 template<typename T>
 // [L, R] 只少两个
-int __partition(T arr[], int L, int R) {
+int __partition2(T arr[], int L, int R) {
+	int q = rand() % (R - L + 1) + L;
+	swap(arr[L],arr[q]);
 
 	int j = L;
-	for (int i = L+1; i <R + 1; i++)
+	T value = arr[L];
+	for (int i = L+1; i <=R; i++)
 	{
-		if (arr[i] < arr[L])
+		if (arr[i] < value)
 		{
 			swap(arr[j + 1], arr[i]);
 			j++;
@@ -71,10 +76,54 @@ int __partition(T arr[], int L, int R) {
 	return j;
 }
 
+
+
+template<typename T>
+// [L, R] 只少两个
+int __partition(T arr[], int L, int R) {
+	int q = rand() % (R - L + 1) + L;
+	swap(arr[L], arr[q]);
+
+	T value = arr[L];
+	int i = L + 1;
+	int j = R;
+	while (i<=j) // 不可以i<j;
+	{
+		while (arr[i] < value)
+		{
+			i++;
+		}
+		while (arr[j] > value)
+		{
+			j--;
+		}
+		if (i>j) // 不可以i>=j
+		{
+			break;
+		}
+		swap(arr[i],arr[j]);
+		i++;
+		j--;
+
+	}
+	//for (int i = L + 1; i <= R; i++)
+	//{
+	//	if (arr[i] < value)
+	//	{
+	//		swap(arr[j + 1], arr[i]);
+	//		j++;
+	//	}
+
+	//}
+	swap(arr[j], arr[L]);
+	return j;
+}
+
 template<typename T>
 void __quickSort(T arr[], int L, int R) {
-	if (L >= R)
+	if (R-L<30)
 	{
+		insertSort(arr+L, R-L+1);
 		return;
 	}
 	//[L,R]
@@ -92,8 +141,9 @@ void quickSort(T arr[], int n) {
 int main()
 {
 	int n = 1000000;
-	//int *arr0 = SortTestHelper::generateNearlyOrderedArray(n,1000);
-	int *arr0 = SortTestHelper::generateRandomArray(n,0,n);
+	int swapTimes = 100;
+	//int *arr0 = SortTestHelper::generateNearlyOrderedArray(n,swapTimes);
+	int *arr0 = SortTestHelper::generateRandomArray(n,0,0);
 	int *arr1 = SortTestHelper::copyIntArray(arr0, n);
 	int *arr2 = SortTestHelper::copyIntArray(arr0,n);
 	int *arr3 = SortTestHelper::copyIntArray(arr0, n);
@@ -105,8 +155,8 @@ int main()
 	SortTestHelper::testSort("mergeSort", mergeSort, arr0, n);
 	SortTestHelper::testSort("quickSort", quickSort, arr1, n);
 	SortTestHelper::testSort("mergeSort", mergeSort, arr2, n);
-	SortTestHelper::testSort("quickSort1", quickSort1, arr3, n);
-	SortTestHelper::testSort("mergeSort2", mergeSort2, arr4, n);
+	//SortTestHelper::testSort("quickSort1", quickSort1, arr3, n);
+	//SortTestHelper::testSort("mergeSort2", mergeSort2, arr4, n);
 	delete[] arr0;
 	delete[] arr1;
 	delete[] arr2;
