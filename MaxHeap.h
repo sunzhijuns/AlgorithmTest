@@ -219,12 +219,60 @@ private:
 		line[offset_right + 0] = '\\';
 	}
 
-
-
-
-
-
-
-
-
 };
+
+
+template<typename T>
+void __shiftDown(T arr[], int n, int i) {
+	while (i*2+1 <= n)
+	{
+		int j = 2 * i + 1;
+		if (j+1 <= n && arr[j+1] > arr[j] )
+		{
+			j++;
+		}
+		if (arr[j] <= arr[i])
+		{
+			break;
+		}
+		swap(arr[j],arr[i]);
+		i = j;
+	}
+}
+template<typename T>
+void heapSort(T arr[], int n) {
+	n--;
+	for (int i = (n-1)/2; i >= 0; i--)
+	{
+		__shiftDown(arr, n, i);
+	}
+	swap(arr[0], arr[n]);
+	n--;
+	for (int i = n; i > 0 ; i--)
+	{
+		__shiftDown(arr, i,0);
+		swap(arr[0], arr[i]);
+	}
+}
+
+
+template<typename T>
+void heapSort1(T arr[], int n) {
+	MaxHeap<T> maxheap = MaxHeap<T>(n);
+	for (int i = 0; i < n; i++)
+	{
+		maxheap.insert(arr[i]);
+	}
+	for (int i = n - 1; i >= 0; i--)
+	{
+		arr[i] = maxheap.extractMax();
+	}
+}
+template<typename T>
+void heapSort2(T arr[], int n) {
+	MaxHeap<T> maxheap = MaxHeap<T>(arr, n);
+	for (int i = n - 1; i >= 0; i--)
+	{
+		arr[i] = maxheap.extractMax();
+	}
+}
