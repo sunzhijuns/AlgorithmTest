@@ -210,18 +210,68 @@ void __quickSort3(T arr[], int L, int R) {
 	__quickSort3(arr, GT, R);
 }
 
+
 template<typename T>
 void quickSort(T arr[], int n) {
 	srand(time(NULL));
 	__quickSort3(arr, 0, n - 1);
 }
 
+
+
+// 递归的三路快速排序算法
+template <typename T>
+void __quickSort3Ways(T arr[], int l, int r) {
+
+	// 对于小规模数组, 使用插入排序进行优化
+	if (r - l <= 15) {
+		insertionSort(arr, l, r);
+		return;
+	}
+
+	// 随机在arr[l...r]的范围中, 选择一个数值作为标定点pivot
+	swap(arr[l], arr[rand() % (r - l + 1) + l]);
+
+	T v = arr[l];
+
+	int lt = l;     // arr[l+1...lt] < v
+	int gt = r + 1; // arr[gt...r] > v
+	int i = l + 1;    // arr[lt+1...i) == v
+	while (i < gt) {
+		if (arr[i] < v) {
+			swap(arr[i], arr[lt + 1]);
+			i++;
+			lt++;
+		}
+		else if (arr[i] > v) {
+			swap(arr[i], arr[gt - 1]);
+			gt--;
+		}
+		else { // arr[i] == v
+			i++;
+		}
+	}
+
+	swap(arr[l], arr[lt]);
+
+	__quickSort3Ways(arr, l, lt - 1);
+	__quickSort3Ways(arr, gt, r);
+}
+
+template <typename T>
+void quickSort3Ways(T arr[], int n) {
+
+	srand(time(NULL));
+	__quickSort3Ways(arr, 0, n - 1);
+}
+
+
 int main()
 {
 	int n = 1000000;
 	int swapTimes = 100;
-	int *arr0 = SortTestHelper::generateNearlyOrderedArray(n,swapTimes);
-	//int *arr0 = SortTestHelper::generateRandomArray(n,0,10);
+	//int *arr0 = SortTestHelper::generateNearlyOrderedArray(n,swapTimes);
+	int *arr0 = SortTestHelper::generateRandomArray(n,0,10);
 	int *arr1 = SortTestHelper::copyIntArray(arr0, n);
 	int *arr2 = SortTestHelper::copyIntArray(arr0,n);
 	int *arr3 = SortTestHelper::copyIntArray(arr0, n);
@@ -232,7 +282,7 @@ int main()
 	
 	SortTestHelper::testSort("mergeSort", mergeSort, arr0, n);
 	SortTestHelper::testSort("quickSort", quickSort, arr1, n);
-	//SortTestHelper::testSort("mergeSort", mergeSort, arr2, n);
+	SortTestHelper::testSort("quickSort3Ways", quickSort3Ways, arr2, n);
 	//SortTestHelper::testSort("quickSort1", quickSort1, arr3, n);
 	//SortTestHelper::testSort("mergeSort2", mergeSort2, arr4, n);
 	delete[] arr0;
@@ -246,7 +296,7 @@ int main()
 	{
 		a[i] = 81 - i;
 	}
-	SortTestHelper::testSort("quickSort", quickSort, a,81);
+	SortTestHelper::testSort("mergeSort", mergeSort, a,81);
 	SortTestHelper::printArray(a,81);
 	delete[]a;
 	system("pause");
