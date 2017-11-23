@@ -133,17 +133,95 @@ void __quickSort(T arr[], int L, int R) {
 }
 
 
+
+
+template<typename T>
+// [L, R] 只少两个
+int* __partition3(T arr[], int L, int R) {
+	int random = rand() % (R - L + 1) + L;
+	swap(arr[L], arr[random]);
+
+	T value = arr[L];
+	int  LT= L;
+	int GT = R+1;
+	int i = L + 1;
+	while(i <= R)
+	{
+		if (arr[i] == value)
+		{
+			i++;
+		}
+		else if (arr[i] < value)
+		{
+			LT++;
+			swap(arr[LT], arr[i]);
+			i++;
+		}
+		else if (arr[i] > value)
+		{
+			GT--;
+			swap(arr[GT], arr[i]);
+		}
+	}
+	swap(arr[LT], arr[L]);
+	int res[2] = {LT - 1,GT};
+	return res;
+}
+
+template<typename T>
+void __quickSort3(T arr[], int L, int R) {
+	if (R - L<30)
+	{
+		insertionSort(arr,L, R);
+		return;
+	}
+	//[L,R]
+	/*int* q = __partition3(arr, L, R);*/
+	int random = rand() % (R - L + 1) + L;
+	swap(arr[L], arr[random]);
+
+	T value = arr[L];
+	int  LT = L;
+	int GT = R + 1;
+	int i = L + 1;
+	while (i < GT)
+	{
+		if (arr[i] == value)
+		{
+			i++;
+		}
+		else if (arr[i] < value)
+		{
+			LT++;
+			swap(arr[LT], arr[i]);
+			i++;
+		}
+		else// if (arr[i] > value)
+		{
+			GT--;
+			swap(arr[GT], arr[i]);
+		}
+	}
+	swap(arr[LT], arr[L]);
+
+
+
+	__quickSort3(arr, L, LT-1);
+	__quickSort3(arr, GT, R);
+}
+
 template<typename T>
 void quickSort(T arr[], int n) {
-	__quickSort(arr, 0, n - 1);
+	srand(time(NULL));
+	__quickSort3(arr, 0, n - 1);
 }
 
 int main()
 {
 	int n = 1000000;
 	int swapTimes = 100;
-	//int *arr0 = SortTestHelper::generateNearlyOrderedArray(n,swapTimes);
-	int *arr0 = SortTestHelper::generateRandomArray(n,0,10);
+	int *arr0 = SortTestHelper::generateNearlyOrderedArray(n,swapTimes);
+	//int *arr0 = SortTestHelper::generateRandomArray(n,0,10);
 	int *arr1 = SortTestHelper::copyIntArray(arr0, n);
 	int *arr2 = SortTestHelper::copyIntArray(arr0,n);
 	int *arr3 = SortTestHelper::copyIntArray(arr0, n);
@@ -168,7 +246,7 @@ int main()
 	{
 		a[i] = 81 - i;
 	}
-	SortTestHelper::testSort("mergeSort", mergeSort, a,81);
+	SortTestHelper::testSort("quickSort", quickSort, a,81);
 	SortTestHelper::printArray(a,81);
 	delete[]a;
 	system("pause");
