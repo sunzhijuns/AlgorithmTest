@@ -1,6 +1,7 @@
 #pragma once
 #include<ctime>
 #include<algorithm>
+#include"InsertionSort.h"
 using namespace std;
 
 template<typename T>

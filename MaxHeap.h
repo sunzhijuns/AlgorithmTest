@@ -3,15 +3,17 @@
 #include<cassert>
 #include<string>
 using namespace std;
-#define root (0)
+#define root 0
 #if root == 1
 #define parent(i) ((i)/2)
-#define left(i) 2*(i)
+#define left(i) (2*(i))
 #define right(i) (2*(i)+1)
+#define half(i) ((i)/2)
 #else
 #define parent(i) (((i)-1)/2)
 #define left(i) (2*(i)+1)
 #define right(i) (2*(i)+2)
+#define half(i) (((i)-1)/2)
 #endif
 
 
@@ -51,6 +53,22 @@ public:
 		data = new Item[capacity+root];
 		count = 0;
 	}
+	MaxHeap(int arr[], int n) {
+		capacity = n;
+		assert(capacity > 1);
+		
+		data = new Item[capacity + root];
+		
+		for (int i = 0; i < n; i++)
+		{
+			data[i + root] = arr[i];
+		}
+		count = n;
+		for (int i = half(count - 1 + root); i >= root; i--)
+		{
+			shiftDown(i);
+		}
+	}
 	~MaxHeap() {
 		delete[] data;
 	}
@@ -77,7 +95,7 @@ public:
 		return true;
 	}
 	void insert(Item item) {
-		if (count + root >= capacity)
+		if (count > capacity)// (count + root >= capacity)
 		{
 			assert (expand());
 		}
@@ -90,7 +108,7 @@ public:
 	Item extractMax() {
 		assert(count > 0);
 		Item ret = data[root];
-		swap(data[root], data[count+root-1]);
+		swap(data[root], data[count-1+root]);
 		count--;
 		shiftDown(root);
 		return ret;
