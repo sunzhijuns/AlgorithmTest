@@ -6,12 +6,13 @@
 #include"SortTestHelper.h"
 #include"MergeSort.h"
 #include"QuickSort.h"
+#include"IndexMaxHeap.h"
 
 using namespace std;
 
 int main()
 {
-	int n = 1000000;
+	/*int n = 1000000;
 	cout << "size = " << n << " , random range [0, " << n << "]" << endl;
 	int *arr1 = SortTestHelper::generateRandomArray(n,0,n);
 
@@ -35,18 +36,21 @@ int main()
 	delete[] arr3;
 	delete[] arr4;
 	delete[] arr5;
-	delete[] arr6;
+	delete[] arr6;*/
 
-	//n = 10;
-	//int *arr = new int[n];
-	//for (int i = 0; i < n; i++)
-	//{
-	//	arr[i] = n - i;
-	//}
+	int n = 10;
+	IndexMaxHeap<int> heap = IndexMaxHeap<int>(n);
+	for (int i = 0; i < n; i++)
+	{
+		heap.insert(i,i);
+	}
+	heap.change(n - 2, 99);
+	heap.change(n-3, 100);
 	//SortTestHelper::testSort("heapSort", heapSort, arr, n);
-	//SortTestHelper::printArray(arr,n);
-
-	//delete[] arr;
+	while (heap.size() !=0)
+	{
+		cout<< heap.extractMax()<<" ";
+	}
 
 
 	system("pause");

@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="IndexMaxHeap.h" />
     <ClInclude Include="InsertionSort.h" />
     <ClInclude Include="MaxHeap.h" />
     <ClInclude Include="MergeSort.h" />
