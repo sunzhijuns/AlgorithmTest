@@ -1,62 +1,114 @@
-
-#include "stdafx.h"
 #include<iostream>
-#include<ctime>
-#include"MaxHeap.h"
-#include"SortTestHelper.h"
-#include"MergeSort.h"
-#include"QuickSort.h"
-#include"IndexMaxHeap.h"
-#include"MinHeap.h"
-
 using namespace std;
 
-int main()
+template<typename Key, typename Value>
+class BST
 {
-	/*int n = 1000000;
-	cout << "size = " << n << " , random range [0, " << n << "]" << endl;
-	int *arr1 = SortTestHelper::generateRandomArray(n,0,n);
-
-	int* arr2 = SortTestHelper::copyIntArray(arr1,n);
-	int* arr3 = SortTestHelper::copyIntArray(arr1, n);
-	int* arr4 = SortTestHelper::copyIntArray(arr1, n);
-	int* arr5 = SortTestHelper::copyIntArray(arr1, n);
-	int* arr6 = SortTestHelper::copyIntArray(arr1, n);
-	
-	
-	SortTestHelper::testSort("mergeSort", mergeSort, arr1,n);
-	SortTestHelper::testSort("quickSort", quickSort, arr2, n);
-
-	SortTestHelper::testSort("heapSort1", heapSort1, arr3, n);
-	SortTestHelper::testSort("heapSort2", heapSort2, arr5, n);
-	SortTestHelper::testSort("heapSort", heapSort, arr6, n);
-	
-	SortTestHelper::testSort("mergeSort", mergeSort, arr4, n);
-	delete[] arr1;
-	delete[] arr2;
-	delete[] arr3;
-	delete[] arr4;
-	delete[] arr5;
-	delete[] arr6;*/
-
-	int n = 10;
-	MinHeap<int> heap = MinHeap<int>(n);
-	for (int i = 0; i < n; i++)
+private:
+	struct Node
 	{
-		heap.insert(n-i);
+		Key key;
+		Value value;
+		Node *left;
+		Node *right;
+		Node(Key key, Value value) {
+			this->key = key;
+			this->value = value;
+			this->left = this->right = NULL;
+		}
+	};
+	Node *root;
+	int count;
+private:
+	Node* insert(Node *node, Key key, Value value) {
+		if (node == NULL)
+		{
+			count++;
+			return new Node(key, value);
+		}
+		if (key == node->key)
+		{
+			node->value = value;
+		}
+		else if (key < node->value)
+		{
+			node->left = insert(node->left, key, value);
+		}
+		else {
+			node->right = insert(node->right, key, value);
+		}
+		return node;
 	}
-	//SortTestHelper::testSort("heapSort", heapSort, arr, n);
-	while (!heap.isEmpty())
+	void *__insert(Node *node, Key key, Value value) {
+		if (node == NULL)
+		{
+			count++;
+			root = new Node(key, value);
+			return;
+		}
+		while (true)
+		{
+			if (key == node->key)
+			{
+				node->value = value;
+				return;
+			}
+			else if (key < node->key)
+			{
+				if (node->left == NULL)
+				{
+					count++;
+					node->left = new Node(key,value);
+					return;
+				}
+				node = node->left;
+
+			}
+			else {
+				//(key > node->key)
+				if (node->right == NULL)
+				{
+					count++;
+					node->right = new Node(key,value);
+					return;
+				}
+				node = node->right;
+			}
+		}
+	}
+
+public:
+	void insert(Key key, Value value) {
+		//root = insert(root, key, value);
+		__insert(root, key, value);
+	}
+
+
+
+public:
+	BST()
 	{
-		//heap.print();
-		cout << heap.extractMin() << endl;
-		heap.print();
-		cout << "----------" << endl;
+		root = NULL;
+		count = 0;
 	}
-	
+
+	~BST()
+	{
+	}
+	int size(){
+		return count;
+	}
+	bool isEmpty() {
+		return count == 0;
+	}
+
+private:
+
+};
 
 
+int main() {
+	cout << "dd" << endl;
 	system("pause");
-
 	return 0;
 }
