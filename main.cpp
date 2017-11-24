@@ -3,6 +3,7 @@
 #include"FileOps.h"
 #include"SequenceST.h"
 #include<ctime>
+#include<stack>
 using namespace std;
 
 template<typename Key, typename Value>
@@ -177,18 +178,93 @@ private:
 			return search(node->right, key);
 		}
 	}
+	void __preOrder(Node *node) {
+		if (node == NULL)
+		{
+			return;
+		}
+		cout << node->value << endl;
+		stack<Node *> nodeStack = stack<Node*>();
+		while (!nodeStack.empty())
+		{
+			node = nodeStack.pop();
+			cout << node->value << endl;
+			if (node->right)
+			{
+				nodeStack.push(node->right);
+			}
+			if (node->left)
+			{
+				nodeStack.push(node->left);
+			}
+		}
+	}
+	void __inOrder(Node*node) {
+
+	}
+	// 递归的前序遍历
+	void preOrder(Node *node) {
+		if (node==NULL)
+		{
+			return;
+		}
+		cout << node->value << endl;
+		preOrder(node->left);
+		preOrder(node->right);
+	}
+	// 递归的中序遍历
+	void inOrder(Node *node) {
+		if (node == NULL)
+		{
+			return;
+		}
+		preOrder(node->left);
+		cout << node->value << endl;
+		preOrder(node->right);
+	}
+	// 递归的后序遍历
+	void postOrder(Node *node) {
+		if (node == NULL)
+		{
+			return;
+		}
+		preOrder(node->left);
+		preOrder(node->right);
+		cout << node->value << endl;
+	}
+	// 递归的删除树
+	void destroy(Node *node) {
+		if (node ==NULL)
+		{
+			return;
+		}
+		destroy(node->left);
+		destroy(node->right);
+		delete node;
+		count--;
+	}
+
 
 public:
 	void insert(Key key, Value value) {
-		root = insert(root, key, value);
-		//insert(root, key, value);
+		//root = insert(root, key, value);
+		__insert(root, key, value);
 	}
 
 	bool contain(Key key) {
-		return contain(root, key);
+		return __contain(root, key);
 	}
 	Value* search(Key key) {
-		return search(root, key);
+		return __search(root, key);
+	}
+	void preOrder() {
+		preOrder(root);
+	}
+	void inOrder() {
+		inOrder(root);
+	}
+	void postOrder() {
+		postOrder(root);
 	}
 
 
@@ -202,6 +278,7 @@ public:
 
 	~BST()
 	{
+		destroy(root);
 	}
 	int size(){
 		return count;
