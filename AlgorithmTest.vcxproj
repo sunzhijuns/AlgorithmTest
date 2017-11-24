@@ -147,6 +147,7 @@
     <ClInclude Include="InsertionSort.h" />
     <ClInclude Include="MaxHeap.h" />
     <ClInclude Include="MergeSort.h" />
+    <ClInclude Include="MinHeap.h" />
     <ClInclude Include="QuickSort.h" />
     <ClInclude Include="SelectionSort.h" />
     <ClInclude Include="ShellSort.h" />

@@ -7,6 +7,7 @@
 #include"MergeSort.h"
 #include"QuickSort.h"
 #include"IndexMaxHeap.h"
+#include"MinHeap.h"
 
 using namespace std;
 
@@ -39,18 +40,20 @@ int main()
 	delete[] arr6;*/
 
 	int n = 10;
-	IndexMaxHeap<int> heap = IndexMaxHeap<int>(n);
+	MinHeap<int> heap = MinHeap<int>(n);
 	for (int i = 0; i < n; i++)
 	{
-		heap.insert(i,i);
+		heap.insert(n-i);
 	}
-	heap.change(n - 2, 99);
-	heap.change(n-3, 100);
 	//SortTestHelper::testSort("heapSort", heapSort, arr, n);
-	while (heap.size() !=0)
+	while (!heap.isEmpty())
 	{
-		cout<< heap.extractMax()<<" ";
+		//heap.print();
+		cout << heap.extractMin() << endl;
+		heap.print();
+		cout << "----------" << endl;
 	}
+	
 
 
 	system("pause");
