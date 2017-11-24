@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="FileOps.h" />
     <ClInclude Include="IndexMaxHeap.h" />
     <ClInclude Include="InsertionSort.h" />
     <ClInclude Include="MaxHeap.h" />
@@ -150,6 +151,7 @@
     <ClInclude Include="MinHeap.h" />
     <ClInclude Include="QuickSort.h" />
     <ClInclude Include="SelectionSort.h" />
+    <ClInclude Include="SequenceST.h" />
     <ClInclude Include="ShellSort.h" />
     <ClInclude Include="SortTestHelper.h" />
     <ClInclude Include="stdafx.h" />
